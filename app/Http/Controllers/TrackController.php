@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Track;
+use Inertia\Inertia;
 
 class TrackController extends Controller
 {
     public function index()
     {
-        return ('<h1>index</h1>');
+        $tracks = Track::where('isPrivate', false)->orderBy('artist')->get();
+
+        return Inertia::render('Track/Index', [
+            'tracks' => $tracks,
+        ]);
     }
     public function create()
     {

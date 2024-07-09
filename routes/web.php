@@ -37,3 +37,5 @@ Route::name('tracks.')->prefix('tracks')->controller(TrackController::class)->gr
     Route::put('/{track}','update')->name('update');
     Route::delete('/{track}','destroy')->name('destroy');
 });
+
+// Route::resources('tracks',TrackController::class)->except(['show']);
