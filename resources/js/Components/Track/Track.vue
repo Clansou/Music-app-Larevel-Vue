@@ -7,7 +7,13 @@
                 <p class="text-gray-600">{{track.artist}}</p>
             </div>
         </div>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded w-full" @click="handleClick">Lire une musique</button>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded w-full my-4" @click="handleClick">Lire une musique</button>
+        <Link class="bg-lime-500 text-white px-4 py-2 rounded w-full my-4 text-center" :href="route('tracks.edit',{track:track})">
+            Modifier la musique
+        </Link>
+        <Link as="button" method="delete" class="bg-red-500 text-white px-4 py-2 rounded w-full my-4 text-center" :href="route('tracks.destroy',{track:track})">
+            Supprimer la musique
+        </Link>
     </div>
 
 </template>

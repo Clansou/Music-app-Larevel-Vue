@@ -18,4 +18,8 @@ class Track extends Model
         'isPrivate',
         'playCount',
     ];
+
+    public function getRouteKeyName(){
+        return 'uuid';
+    }
 }

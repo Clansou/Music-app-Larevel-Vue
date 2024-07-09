@@ -2,7 +2,7 @@
     <MusicLayout>
         <template #title>
             <Link class="bg-blue-500 text-white px-4 py-2 rounded w-full" :href="route('tracks.create')">
-                Créer une musique
+                Modifier une musique
             </Link>
         </template>
         <template #action>
@@ -21,20 +21,12 @@
                     <input id="artist" type="text" v-model="form.artist" :class="{ 'border-red-300': form.errors.artist }" class="mt-1 block w-full border rounded-md shadow-sm">
                     <p class="text-xs text-red-600">{{ form.errors.artist }}</p>
 
-                    <label for="image" class="block text-sm font-medium">Image</label>
-                    <input id="image" type="file" @input="form.image = $event.target.files[0]" :class="{ 'border-red-300': form.errors.image }" class="mt-1 block w-full border rounded-md shadow-sm">
-                    <p class="text-xs text-red-600">{{ form.errors.image }}</p>
-
-                    <label for="music" class="block text-sm font-medium">Musique</label>
-                    <input id="music" type="file" @input="form.music = $event.target.files[0]" :class="{ 'border-red-300': form.errors.music }" class="mt-1 block w-full border rounded-md shadow-sm">
-                    <p class="text-xs text-red-600">{{ form.errors.music }}</p>
-
                     <div class="flex items-center space-x-2 mt-4">
                         <input id="isPrivate" type="checkbox" v-model="form.isPrivate" class="rounded text-blue-500 focus:ring-blue-500">
                         <label for="isPrivate" class="ml-2 text-sm font-medium">Privé</label>
                     </div>
 
-                    <button type="submit" class="mt-6 px-4 py-2 text-white rounded-md transition duration-150 ease-in-out" :class="[form.processing ? 'bg-grey-500' : 'bg-blue-500 hover:bg-blue-600']" :disabled="form.processing">Créer</button>
+                    <button type="submit" class="mt-6 px-4 py-2 text-white rounded-md transition duration-150 ease-in-out" :class="[form.processing ? 'bg-grey-500' : 'bg-blue-500 hover:bg-blue-600']" :disabled="form.processing">Modifier</button>
                 </div>
             </form>
         </template>
@@ -45,25 +37,27 @@
 import MusicLayout from '@/Layouts/MusicLayout.vue';
 
 export default {
-    name: 'Create',
+    name: 'Edit',
     components: {
         MusicLayout,
+    },
+    props:{
+        track: Object
     },
     data() {
         return {
             form: this.$inertia.form({
-                title: '',
-                artist: '',
-                image: null,
-                music: null,
-                isPrivate: false
+                title: this.track.title,
+                artist: this.track.artist,
+                isPrivate: this.track.isPrivate ? true : false
             })
         };
     },
     methods: {
         submitForm() {
             console.log(this.form);
-            this.form.post(route('tracks.store'))
+            console.log(route('tracks.update',{track: this.track}))
+            this.form.put(route('tracks.update',{track: this.track}))
         }
     }
 }

@@ -50,16 +50,33 @@ class TrackController extends Controller
     {
         return ('<h1>show</h1>');
     }
-    public function edit()
+    public function edit(Track $track)
     {
-        return ('<h1>edit</h1>');
+        return Inertia::render('Track/Edit',[
+            'track' => $track,
+        ]);
     }
-    public function update()
+    public function update(Request $request, Track $track)
     {
-        return ('<h1>update</h1>');
+        $request->validate([
+            'title' => ['required','max:255','min:5','string'],
+            'artist' => ['required', 'max:255', 'min:5', 'string'],
+            'isPrivate' => ['required','boolean'],
+        ]);
+        $trackData = [
+            'title' =>  $request->title,
+            'artist' => $request->artist,
+            'isPrivate' => $request->isPrivate,
+        ];
+        $track->update($trackData);
+
+        return redirect()->route('tracks.index');
+
     }
-    public function destroy()
+    public function destroy(Track $track)
     {
-        return ('<h1>destroy</h1>');
+        $track->delete;
+        
+        return redirect()->back();
     }
 }
