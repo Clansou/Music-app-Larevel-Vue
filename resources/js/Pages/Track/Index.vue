@@ -12,7 +12,7 @@
         <input v-model='filter' type="search" class="shadow border px-4 py-2 rounded text-gray-700"/>
         <div>
           <ul>
-              <Track v-for="track in filteredTracks" :key="track.uuid" :track='track' @played="play"/>
+              <Track v-for="track in filteredTracks" :key="track.uuid" :active="currentTrack === track" :track='track' @played="play"/>
           </ul>
         </div>
       </div>

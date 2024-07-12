@@ -58,6 +58,7 @@ class TrackController extends Controller
     }
     public function update(Request $request, Track $track)
     {
+        
         $request->validate([
             'title' => ['required','max:255','min:5','string'],
             'artist' => ['required', 'max:255', 'min:5', 'string'],
