@@ -1,69 +1,31 @@
-  <template>
-
+<template>
   <MusicLayout>
     <template #title>
-      Liste de mes tracks
+      Liste de mes musiques
     </template>
     <template #action>
-      Ajouter une musique
+      <Link v-if="$page.props.isAdmin" :href="route('tracks.create')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4">
+      Créer une musique
+      </Link>
     </template>
     <template #content>
-      <div>
-        <input v-model='filter' type="search" class="shadow border px-4 py-2 rounded text-gray-700"/>
-        <div>
-          <ul>
-              <Track v-for="track in filteredTracks" :key="track.uuid" :active="currentTrack === track" :track='track' @played="play"/>
-          </ul>
-        </div>
-      </div>
+      <TrackList :tracks="tracks" />
     </template>
   </MusicLayout>
 </template>
 
 <script>
 import MusicLayout from '@/Layouts/MusicLayout.vue';
-import Track from '@/Components/Track/Track.vue';
+import TrackList from '@/Components/Track/TrackList.vue';
 
 export default {
   name: 'Index',
   components: {
     MusicLayout,
-    Track,
+    TrackList,
   },
   props: {
     tracks: Array,
   },
-  data(){
-    return{
-      audio:null,
-      currentTrack:null,
-      filter:''
-    }
-  },
-  computed:{
-    filteredTracks() {
-      return this.tracks.filter(track => track.title.toLowerCase().includes(this.filter.toLowerCase()) || track.artist.toLowerCase().includes(this.filter.toLowerCase()))
-    }
-  },
-  methods:{
-    play(track){
-            const url = 'storage/musics/'+ track.music
-            if(!this.currentTrack){
-              this.audio = new Audio(url);
-              this.audio.play();
-            }
-            else if(this.currentTrack !== track.uuid){
-              this.audio.pause();
-              this.audio.src = url;
-              this.audio.play();
-            }
-            else{
-              this.audio.paused ? this.audio.play():this.audio.pause();
-            }
-            this.currentTrack = track.uuid;
-            this.audio.addEventListener('ended', () => this.currentTrack = null)
-
-        }
-  }
 }
 </script>

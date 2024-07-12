@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\TrackController;
+use App\Http\Middleware\IsAdmin;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -23,7 +24,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
         return Inertia::render('Dashboard');
     })->name('dashboard');
     //Tracks
-    Route::name('tracks.')->prefix('tracks')->controller(TrackController::class)->group(function (){
+    Route::name('tracks.')->prefix('tracks')->controller(TrackController::class)->middleware([IsAdmin::class])->group(function (){
         Route::get('/create','create')->name('create');
         Route::post('/','store')->name('store');
         Route::get('/{track}','show')->name('show');

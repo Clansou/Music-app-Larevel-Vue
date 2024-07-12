@@ -24,7 +24,7 @@
               <tr v-for="playlist in playlists" :key="playlist.uuid">
                   <td>{{ playlist.title }}</td>
                   <td>{{ playlist.tracks_count }}</td>
-                  <td>{{ playlist.created_at }}</td>
+                  <td>{{ $moment(playlist.created_at).format('DD/MM/YYYY hh:mm:ss') }}</td>
                   <td>
                       <Link as="button" method="get" class="bg-blue-500 text-white px-4 py-2 rounded w-full my-4 text-center" :href="route('playlist.show',{playlist:playlist})">
                         Voir
