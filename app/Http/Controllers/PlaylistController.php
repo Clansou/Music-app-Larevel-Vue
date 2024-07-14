@@ -82,9 +82,11 @@ class PlaylistController extends Controller
     public function edit(Playlist $playlist)
     {
         $tracks = Track::all(); 
+        $currentTracks = $playlist->tracks->pluck('uuid');
         return Inertia::render('Playlist/Edit',[
             'playlist' => $playlist,
             'tracks' => $tracks,
+            'currentTracks' => $currentTracks,
         ]);
     }
 
@@ -98,10 +100,17 @@ class PlaylistController extends Controller
             'tracks' =>['required','array'],
             'tracks.*' =>['required','string']
         ]);
+        $tracks = Track::whereIn('uuid', $request->tracks)->where('isPrivate',false)->get();
+        if($tracks->count() !== count($request->tracks)){
+            throw validationException::withMessages([
+              'tracks' => "une musique n'existe pas"  
+            ]);
+        }
         $playlistData = [
             'title' =>  $request->title,
         ];
         $playlist->update($playlistData);
+        $playlist->tracks()->sync($tracks->pluck("id"));
         return redirect()->back();
     }
 
@@ -111,7 +120,7 @@ class PlaylistController extends Controller
     public function destroy(Playlist $playlist)
     {
         // dd($playlist);
-        $playlist->delete;
+        $playlist->delete();
        
         
         return redirect()->back();

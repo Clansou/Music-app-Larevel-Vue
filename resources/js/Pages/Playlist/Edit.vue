@@ -6,7 +6,7 @@
             </Link>
         </template>
         <template #action>
-            <Link :href="route('playlist.index')">
+            <Link class="bg-blue-500 text-white px-4 py-2 rounded w-full" :href="route('playlist.index')">
                 Retour
             </Link>
         </template>
@@ -17,7 +17,7 @@
                     <input id="title" type="text" v-model="form.title" :class="{ 'border-red-300': form.errors.title }" class="mt-1 block w-full border rounded-md shadow-sm">
                     <p class="text-xs text-red-600">{{ form.errors.title }}</p>
                     <div v-for="track in tracks" :key="track.uuid">
-                        <input :id="track.uuid" type="checkbox" :value="track.uuid" v-model="form.tracks" name="tracks" class="mr-5"></input>
+                        <input :id="track.uuid" type="checkbox" :value="track.uuid" v-model="form.tracks" name="tracks" class="mr-5" :checked="form.tracks.includes(track.uuid)"></input>
                         <label :for="track.uuid">{{track.title}}</label>
                     </div>
 
@@ -38,13 +38,14 @@ export default {
     },
     props:{
         playlist: Object,
-        tracks: Array
+        tracks: Array,
+        currentTracks: Array
     },
     data() {
         return {
             form: this.$inertia.form({
                 title: this.playlist.title,
-                tracks:[]
+                tracks:this.currentTracks 
             })
         };
     },

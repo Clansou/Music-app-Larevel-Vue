@@ -11,7 +11,6 @@
       </template>
       <template #content>
         <div>
-          <!-- <input v-model='filter' type="search" class="shadow border px-4 py-2 rounded text-gray-700"/> -->
 
           <div>
             <thead>
@@ -31,6 +30,12 @@
                       <Link as="button" method="get" class="bg-blue-500 text-white px-4 py-2 rounded w-full my-4 text-center" :href="route('playlist.show',{playlist:playlist})">
                         Voir
                       </Link>
+                      <Link as="button" class="bg-lime-500 text-white px-4 py-2 rounded w-full my-4 text-center" :href="route('playlist.edit',{playlist:playlist})">
+                        Modifier la playlist
+                      </Link>
+                      <Link as="button" method="delete" class="bg-red-500 text-white px-4 py-2 rounded w-full my-4 text-center" :href="route('playlist.destroy',{playlist:playlist})">
+                        Supprimer la playlist
+                      </Link>
                   </td>
               </tr>
           </tbody>
@@ -42,13 +47,11 @@
   
   <script>
   import MusicLayout from '@/Layouts/MusicLayout.vue';
-  import Playlist from '@/Components/Playlist/Playlist.vue';
   import { Link } from '@inertiajs/vue3';
   export default {
     name: 'Index',
     components: {
       MusicLayout,
-      Playlist,
     },
     props: {
       playlists: Array
