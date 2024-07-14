@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Playlist;
+use App\Models\ApiKey;
 
 class User extends Authenticatable
 {
@@ -68,5 +69,10 @@ class User extends Authenticatable
     public function playlist()
     {
         return $this->hasMany(Playlist::class);
+    }
+
+    public function apikey()
+    {
+        return $this->hasMany(ApiKey::class);
     }
 }
