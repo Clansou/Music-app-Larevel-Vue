@@ -116,4 +116,17 @@ class PlaylistController extends Controller
         
         return redirect()->back();
     }
+
+    public function fetchPlaylistsByApiKey(Request $request)
+{
+    $user = $request->user;
+
+    if (!$user) {
+        return response()->json(['error' => 'Invalid API key'], 401);
+    }
+
+    $playlists = $user->playlist()->withCount(['tracks'])->get();
+
+    return response()->json($playlists);
+}
 }

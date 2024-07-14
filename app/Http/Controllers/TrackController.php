@@ -76,6 +76,7 @@ class TrackController extends Controller
     }
     public function destroy(Track $track)
     {
+        dd($track);
         $track->delete();
         
         return redirect()->back();

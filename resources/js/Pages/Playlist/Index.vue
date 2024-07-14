@@ -5,7 +5,9 @@
         Liste de mes playlists
       </template>
       <template #action>
-        Ajouter une playlist
+        <Link class="bg-blue-500 text-white px-4 py-2 rounded w-full" :href="route('playlist.create')">
+          Ajouter une playlist
+      </Link>
       </template>
       <template #content>
         <div>
